@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { Provider } from 'react-redux';
+
+import { BrowserRouter as Router } from 'react-router-dom';
+import RoutesComponent from './pages/RoutesComponent';
+import Navigation from './components/Navigation';
+import { UserProvider } from './hooks/useUser';
+import store from './redux/store';
+
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: '#1976d2', 
+		},
+		secondary: {
+			main: '#dc004e', 
+		},
+	},
+});
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Provider store={store}>
+			<ThemeProvider theme={theme}>
+				<CssBaseline />
+        <Router>
+          <UserProvider>
+					<Navigation />
+            <RoutesComponent />
+            </UserProvider>
+				</Router>
+			</ThemeProvider>
+		</Provider>
+	);
 }
 
 export default App;
