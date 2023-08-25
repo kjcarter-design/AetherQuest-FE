@@ -7,12 +7,31 @@ import { useSelector } from 'react-redux';
 
 function Characters() {
     const user = useSelector(state => state.user.userDetails);
+    const auth = JSON.parse(localStorage.getItem('auth'));
+    const storedToken = auth.token
+    
     const [characters, setCharacters] = useState([]);
     const [open, setOpen] = useState(false);
 
+    const fetchCharacters = async () => {
+        const apiURL = process.env.REACT_APP_API_URL;
+        try {
+            const response = await axios.get(`${apiURL}/api/users/${user._id}/characters`, {
+                headers: {
+                    'Authorization': `Bearer ${storedToken}`
+                }
+            });
+            setCharacters(response.data);
+        } catch (error) {
+            console.error('Error fetching characters:', error);
+        }
+    }
+
     useEffect(() => {
-        setCharacters(user.characters);
-    }, [user]);
+        fetchCharacters();
+    }, []);
+
+
 
     const handleOpen = () => {
         setOpen(true);
@@ -23,6 +42,7 @@ function Characters() {
     };
 
     const handleCharacterCreated = () => {
+        fetchCharacters();
         handleClose();
     };
 
