@@ -1,52 +1,53 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { login, register } from '../actions/authActions';
 
-export const loginUser = createAsyncThunk('user/loginUser', async (userData) => {
-  const response = await fetch('http://localhost:5000/api/login', {
-      method: 'POST',
-      body: JSON.stringify(userData),
-      headers: {
-          'Content-Type': 'application/json'
-      }
-  });
-  const data = await response.json();
-  if (response.ok) {
-      return { userData: data };
-  } else {
-      throw new Error(data.message);
-  }
-});
+const initialState = {
+	token: null,
+	userDetails: {},
+	error: null,
+	isLoading: false,
+};
 
 const userSlice = createSlice({
-  name: 'user',
-  initialState: {
-    isAuthenticated: false,
-    userData: null,
-    loading: false,
-    error: null
-  },
-  reducers: {
-    logout: (state) => {
-      state.isAuthenticated = false;
-      state.userData = null;
+	name: 'user',
+	initialState,
+	reducers: {
+		logout: (state) => {
+			state.token = null;
+			state.userDetails = {};
+			localStorage.removeItem('auth');
+			localStorage.removeItem('userDetails');
+			state.error = null;
+			state.isLoading = false;
+		},
+	},
+	extraReducers: {
+		[login.pending]: (state) => {
+			state.isLoading = true;
+		},
+		[login.fulfilled]: (state, action) => {
+			state.token = action.payload.token;
+			state.userDetails = action.payload.userDetails;
+			state.isLoading = false;
+		},
+		[login.rejected]: (state, action) => {
+			state.error = action.error.message;
+			state.isLoading = false;
     },
-    // ... (other reducers if any)
+    [register.pending]: (state) => {
+      state.isLoading = true;
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(loginUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.isAuthenticated = true;
-        state.userData = action.payload.userData;
-        state.loading = false;
-      })
-      .addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      });
+  [register.fulfilled]: (state, action) => {
+    state.isLoading = false;
+    state.token = action.payload.token;
+    state.userDetails = action.payload.userDetails;
+},
+
+  [register.rejected]: (state, action) => {
+      state.error = action.error.message;
+      state.isLoading = false;
   }
+	},
 });
 
 export const { logout } = userSlice.actions;

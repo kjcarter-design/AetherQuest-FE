@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginUser as loginAction } from '../../redux/slices/userSlice'; // Rename the imported action
 import { Button, TextField, Container, Typography } from '@mui/material';
-import { useUser } from '../../hooks/useUser';
+import { login } from './../../redux/actions/authActions';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { login } = useUser();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLogin = () => {
-    // Call your API to authenticate and then dispatch the login action
-    // For demonstration purposes, I'm dispatching the login action directly
-    dispatch(loginAction({ email, userData: { name: 'John Doe' } }));
-  };
-
-  const handleRegister = () => {
-    // Call your API to register and then dispatch the login action
-    // For demonstration purposes, I'm dispatching the login action directly
-    dispatch(loginAction({ email, userData: { name: 'John Doe' } }));
+  const handleLogin = async () => {
+    try {
+      await dispatch(login({ email, password }));
+      navigate('/'); // Navigate to the home page after successful login
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   return (
