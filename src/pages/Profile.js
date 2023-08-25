@@ -1,13 +1,17 @@
 import React from 'react';
 import { Container, Typography } from '@mui/material';
+import CharactersPage from './Characters';
+import { useSelector } from 'react-redux';
 
 function Profile() {
+  const user = useSelector(state => state.user.userDetails);
+
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
-        User Profile
+        {user.firstName}
       </Typography>
-      {/* Add user profile details here */}
+      <CharactersPage/>
     </Container>
   );
 }

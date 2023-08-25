@@ -3,12 +3,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import { useSelector } from 'react-redux';
+import Profile from './Profile';
 
-function Home() {
-  const user = useSelector(state => state.user.userDetails);
-  useEffect(() => {
-    console.log(user)
-  }, [user])
+function Home() { 
   return (
     <Container>
       <Box mt={4}>
@@ -16,7 +13,7 @@ function Home() {
           Welcome to AetherQuest
         </Typography>
         <Typography variant="body1">
-          Hello, {user.firstName}
+         <Profile/>
         </Typography>
       </Box>
     </Container>
