@@ -28,9 +28,12 @@ function Navigation() {
 				</Link>
 				{isAuthenticated ? (
 					<>
-						<Typography variant='body1' style={{ marginRight: '15px' }}>
-							Welcome, {user.firstName}{' '}
-						</Typography>
+						<Link
+					to='/characters'
+					style={{ textDecoration: 'none', color: 'inherit', flexGrow: 1 }}
+				>
+					<Typography variant='h6'>Characters</Typography>
+				</Link>
 						<Button color='inherit' onClick={handleSignOut}>
 							Sign Out
 						</Button>

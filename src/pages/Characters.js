@@ -1,28 +1,18 @@
-// Characters.js
-
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Box, Grid, Card, CardContent, Typography } from '@mui/material';
+import { Button, Dialog, Box, Grid, Card, CardContent, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
 import CharacterForm from '../components/forms/CharacterForm';
-
+import { useSelector } from 'react-redux';
 
 function Characters() {
+    const user = useSelector(state => state.user.userDetails);
     const [characters, setCharacters] = useState([]);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        const fetchCharacters = async () => {
-            try {
-                const response = await axios.get('/api/characters');
-                setCharacters(response.data);
-            } catch (error) {
-                console.error('Error fetching characters:', error);
-            }
-        };
-
-        fetchCharacters();
-    }, []);
+        setCharacters(user.characters);
+    }, [user]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -69,16 +59,12 @@ function Characters() {
                 ))}
             </Grid>
 
-            <Modal
+            <Dialog
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="character-creation-modal"
             >
                 <Box sx={{ 
-                    position: 'absolute', 
-                    top: '50%', 
-                    left: '50%', 
-                    transform: 'translate(-50%, -50%)', 
                     width: 400, 
                     bgcolor: 'background.paper', 
                     boxShadow: 24, 
@@ -86,7 +72,7 @@ function Characters() {
                 }}>
                     <CharacterForm onSubmit={handleCharacterCreated} />
                 </Box>
-            </Modal>
+            </Dialog>
         </Box>
     );
 }

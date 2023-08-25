@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Typography } from '@mui/material';
-import CharactersPage from './Characters';
 import { useSelector } from 'react-redux';
 
 function Profile() {
@@ -8,10 +7,7 @@ function Profile() {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
-        {user.firstName}
-      </Typography>
-      <CharactersPage/>
+      
     </Container>
   );
 }

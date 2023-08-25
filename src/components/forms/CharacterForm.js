@@ -6,7 +6,9 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 function CharacterForm({ onSubmit }) {
-	const token = useSelector((state) => state.user.token);
+    const token = useSelector((state) => state.user.token);
+    const userID = useSelector((state) => state.user.userDetails._id)
+    
 
     const [characterData, setCharacterData] = useState({
         name: '',
@@ -23,11 +25,14 @@ function CharacterForm({ onSubmit }) {
 
     const handleSubmit = async (event) => {
       event.preventDefault();
-      const apiURL = process.env.REACT_APP_API_URL;
-  
+        const apiURL = process.env.REACT_APP_API_URL;
+        const requestData = {
+            ...characterData,
+            userId: userID
+        }
     
       try {
-          const response = await axios.post(`${apiURL}/api/characters`, characterData, {
+          const response = await axios.post(`${apiURL}/api/characters`, requestData, {
               headers: {
                   'Authorization': `Bearer ${token}`
               }
