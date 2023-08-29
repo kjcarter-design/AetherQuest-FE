@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, TextField, Container, Typography } from '@mui/material';
+import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import { login } from './../../redux/actions/authActions';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,12 +21,16 @@ function LoginForm(props) {
   };
 
   return (
-    <Container>
-      <Typography variant="h4">Login or Register</Typography>
+    <Container component={Box} maxWidth="sm" py={3}>
+      <Typography variant="h5" gutterBottom>
+        Login or Register
+      </Typography>
       <TextField 
         label="Email" 
         variant="outlined" 
         fullWidth 
+        size="small" // Making the TextField a bit smaller
+        margin="normal"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
@@ -35,18 +39,21 @@ function LoginForm(props) {
         type="password" 
         variant="outlined" 
         fullWidth 
+        size="small" // Making the TextField a bit smaller
+        margin="normal"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button 
-        variant="contained" 
-        color="primary" 
-        onClick={handleLogin}
-      >
-        Login
-      </Button>
-      {/* If you want a Register button, you can uncomment the following line */}
-      {/* <Button variant="contained" color="secondary" onClick={handleRegister}>Register</Button> */}
+      <Box mt={2}>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          fullWidth
+          onClick={handleLogin}
+        >
+          Login
+        </Button>
+      </Box>
     </Container>
   );
 }
