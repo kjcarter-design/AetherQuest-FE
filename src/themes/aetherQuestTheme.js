@@ -64,7 +64,15 @@ const aetherQuestTheme = createTheme({
         },
       },
     },
-    // ... other component customizations
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'transparent', 
+          background: 'linear-gradient(to bottom, rgba(0, 0, 0, 100), rgba(0, 0, 0, 0.8))',
+          backdropFilter: 'blur(20px)',
+        }
+      }
+    },
   },
 });
 
