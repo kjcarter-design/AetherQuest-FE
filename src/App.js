@@ -6,6 +6,7 @@ import RoutesComponent from './pages/RoutesComponent';
 import Navigation from './components/Navigation';
 import { UserProvider } from './hooks/useUser';
 import store from './redux/store';
+import aetherQuestTheme from './themes/aetherQuestTheme';
 
 const theme = createTheme({
 	palette: {
@@ -21,7 +22,7 @@ const theme = createTheme({
 function App() {
 	return (
 		<Provider store={store}>
-			<ThemeProvider theme={theme}>
+			<ThemeProvider theme={aetherQuestTheme}>
 				<CssBaseline />
         <Router>
           <UserProvider>
