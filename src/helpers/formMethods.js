@@ -12,10 +12,12 @@ export const handleCreateCharacter = (setSelectedCharacter, setFormMode) => {
 };
 
 export const handleSubmitCharacter = async (mode, characterData, userID, selectedImage, token, onSubmit) => {
+    
+    console.log("characterData.image:", characterData.image);
     const requestData = {
         ...characterData,
         userId: userID,
-        image: selectedImage
+        image: characterData.image
     };
 
     try {

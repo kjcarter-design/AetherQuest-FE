@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
 	TextField,
 	Button,
@@ -22,7 +22,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 function CharacterForm({ character = {}, onSubmit, onDelete, mode, token }) {
 	const userID = useSelector((state) => state.user.userDetails._id);
-
+	const apiURL = process.env.REACT_APP_API_URL;
 	const [characterData, setCharacterData] = useState({
 		...(character?._id && { _id: character._id }),
 		name: character?.name || '',
@@ -34,6 +34,7 @@ function CharacterForm({ character = {}, onSubmit, onDelete, mode, token }) {
 	const [classes, setClasses] = useState([]);
 	const [races, setRaces] = useState([]);
 	const [selectedImage, setSelectedImage] = useState(null);
+	const inputFileRef = useRef(null);
 
 	useEffect(() => {
 		const fetchDnDData = async () => {
@@ -60,21 +61,33 @@ function CharacterForm({ character = {}, onSubmit, onDelete, mode, token }) {
 	};
 
 	const handleImageChange = async (event) => {
-		const file = event.target.files[0];
-		console.log(`Adding image: ${file}`);
-		if (file) {
-			try {
-				const compressedFile = await compressImage(file);
-				const reader = new FileReader();
-				reader.onloadend = () => {
-					setSelectedImage(reader.result);
-				};
-				reader.readAsDataURL(compressedFile);
-			} catch (error) {
-				console.error('Error compressing the image:', error);
-			}
-		}
-	};
+    const file = event.target.files[0];
+    if (file) {
+        try {
+            const response = await axios.get(`${apiURL}/s3/generate-upload-url`, {
+                params: {
+                    fileType: file.type
+                }
+            });
+            
+            const { uploadURL } = response.data;
+            await axios.put(uploadURL.signedUrl, file, {
+                headers: {
+                    'Content-Type': file.type
+                }
+            });
+
+					const imageURL = uploadURL.objectUrl;
+console.log('imgURL:' + imageURL);
+					
+            setCharacterData((prevData) => ({ ...prevData, image: imageURL }));
+        } catch (error) {
+            console.error('Error uploading the image:', error);
+        }
+    }
+};
+
+
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -94,6 +107,11 @@ function CharacterForm({ character = {}, onSubmit, onDelete, mode, token }) {
 		onDelete();
 	};
 
+	const handleButtonClick = (event) => {
+    event.stopPropagation();
+    inputFileRef.current.click();
+}
+
 	return (
 		<Box
 			component='form'
@@ -109,7 +127,6 @@ function CharacterForm({ character = {}, onSubmit, onDelete, mode, token }) {
 			}}
 		>
 			<Grid container spacing={2} justifyContent='center' alignItems='center'>
-
 				{/* Name and Class */}
 				<Grid item xs={6}>
 					<TextField
@@ -145,9 +162,18 @@ function CharacterForm({ character = {}, onSubmit, onDelete, mode, token }) {
 				{/* Image */}
 				<Grid item xs={12}>
 					<InputLabel style={{ fontSize: '0.8rem' }}>Upload Image</InputLabel>
-					<IconButton color='primary' component='span'>
+					<IconButton
+						color='primary'
+						component='span'
+						onClick={handleButtonClick}
+					>
 						<PhotoCamera />
-						<input type='file' hidden onChange={handleImageChange} />
+						<input
+							type='file'
+							hidden
+							ref={inputFileRef}
+							onChange={handleImageChange}
+						/>
 					</IconButton>
 				</Grid>
 

@@ -50,11 +50,8 @@ function CharacterCard({ character, onDelete, onEdit, mode }) {
 
                         {/* Image */}
                         <Grid item xs={12}>
-                            <img
-                                src={character.imageURL}
-                                alt={character.name}
-                                style={{ width: '100%', height: 'auto' }}
-                            />
+                            {character.image && <img src={character.image} alt={character.name} style={{ width: '100%', height: 'auto' }} />}
+
                         </Grid>
 
                         {/* Armor and Enchanted */}
