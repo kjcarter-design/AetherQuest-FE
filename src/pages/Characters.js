@@ -83,7 +83,9 @@ function Characters() {
 					<Grid item xs={12} sm={6} md={4} key={character._id}>
 						<CharacterCard
 							character={character}
-							onEdit={handleEdit} 
+							onEdit={handleEdit}
+							onDelete={handleCharacterDeleted}
+							token={storedToken}
 						/>
 					</Grid>
 				))}

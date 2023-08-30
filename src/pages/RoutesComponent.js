@@ -3,6 +3,7 @@ import Home from './Home';
 import Profile from './Profile';
 import Login from './Login';
 import Characters from './Characters';
+import Game from './Game';
 
 function RoutesComponent() {
 	return (
@@ -11,6 +12,7 @@ function RoutesComponent() {
 			<Route path='/login' element={<Login />} />
 			<Route path='/profile' element={<Profile />} />
 			<Route path='/characters' element={ <Characters/>} />
+			<Route path='/game' element={ <Game/>} />
 		</Routes>
 	);
 }
