@@ -85,7 +85,7 @@ function CharacterCard({ character, onDelete, onEdit, mode, token }) {
                   backgroundColor: "gray",
                 }}
               >
-                <Typography variant="caption">{character.name}</Typography>
+                {/* <Typography variant="caption">{character.name}</Typography> */}
               </Grid>
               <Grid
                 item
@@ -99,9 +99,9 @@ function CharacterCard({ character, onDelete, onEdit, mode, token }) {
                   backgroundColor: "gray",
                 }}
               >
-                <Typography variant="caption">
+                {/* <Typography variant="caption">
                   {character.class} lvl: {character.level}
-                </Typography>
+                </Typography> */}
               </Grid>
             </Container>
 
@@ -218,14 +218,14 @@ function CharacterCard({ character, onDelete, onEdit, mode, token }) {
               >
                 {/* Main Hand and Off Hand */}
                 <Grid item xs={6}>
-                  <Typography variant="body2">
+                  {/* <Typography variant="body2"> */}
                     {/* Main Hand: {character.mainHand} */}
-                  </Typography>
+                  {/* </Typography> */}
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography variant="body2">
+                  {/* <Typography variant="body2"> */}
                     {/* Off Hand: {character.offHand} */}
-                  </Typography>
+                  {/* </Typography> */}
                 </Grid>
               </Box>
             </Container>

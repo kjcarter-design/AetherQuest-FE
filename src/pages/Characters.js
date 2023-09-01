@@ -11,7 +11,6 @@ function Characters() {
 	const user = useSelector((state) => state.user.userDetails);
 	const auth = JSON.parse(localStorage.getItem('auth'));
 	const storedToken = auth.token;
-
 	const [characters, setCharacters] = useState([]);
 	const [selectedCharacter, setSelectedCharacter] = useState(null);
 	const [formMode, setFormMode] = useState(null);
@@ -95,9 +94,7 @@ function Characters() {
 				open={open}
 				onClose={handleClose}
 				aria-labelledby='character-creation-modal'
-				PaperProps={{
-					style: cardStyle,
-				}}
+				
 			>
 				<CharacterForm
           mode={formMode}

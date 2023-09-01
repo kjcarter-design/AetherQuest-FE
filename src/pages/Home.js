@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Hero from '../assets/Hero.png';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box,Button, Card, CardContent, Container, Grid, Typography } from '@mui/material';
+import { fetchDnDData } from '../redux/slices/dndDataSlice';
 
 function Home() {
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.user.token);
 	const user = useSelector((state) => state.user.userDetails);
+  const characterData = useSelector((state) => state.character.characterData);
   const isAuthenticated = !!token && !!Object.keys(user).length;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchDnDData());
+    }
+  }, [token, dispatch]);
+
+useEffect(() => {
+  console.trace(token)
+
+}, [token]);
+  
   return (
     <Container maxWidth="xl" disableGutters sx={{padding: '3rem'}}>
       {isAuthenticated ?

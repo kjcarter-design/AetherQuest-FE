@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userSlice from './slices/userSlice';
-
+import characterReducer from './slices/dndDataSlice';
 
 const storedToken = localStorage.getItem('auth');
 const storedUserDetails = JSON.parse(localStorage.getItem('userDetails'));
@@ -16,7 +16,8 @@ const preloadedState = {
 
 const store = configureStore({
     reducer: {
-        user: userSlice
+        user: userSlice,
+        character: characterReducer 
     },
     preloadedState,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),

@@ -71,18 +71,30 @@ function Navigation() {
 					open={Boolean(anchorEl)}
 					onClose={handleMenuClose}
 				>
-						<>
-							<MenuItem onClick={handleMenuClose}>
-								<Link to='/characters'>Characters</Link>
-							</MenuItem>
-							<MenuItem onClick={handleMenuClose}>
-								<Link to='/games'>Games</Link>
-							</MenuItem>
-							<MenuItem onClick={handleMenuClose}>
-								<Link to='/decks'>Decks</Link>
-							</MenuItem>
-							<MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
-						</>
+							<MenuItem onClick={() => {
+    handleMenuClose();
+    navigate('/characters');
+}}>
+    Characters
+</MenuItem>
+<MenuItem onClick={() => {
+    handleMenuClose();
+    navigate('/games');
+}}>
+    Games
+</MenuItem>
+<MenuItem onClick={() => {
+    handleMenuClose();
+    navigate('/decks');
+}}>
+    Decks
+</MenuItem>
+<MenuItem onClick={() => {
+    handleSignOut();
+    handleMenuClose();  // Close the menu when signing out
+}}>
+    Sign Out
+</MenuItem>
 						</Menu>
 						</Box>
 					) : (

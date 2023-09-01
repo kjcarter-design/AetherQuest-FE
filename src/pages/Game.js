@@ -49,9 +49,17 @@ function Game() {
         }
     }
 
+	useEffect(() => {
+		fetchMonster();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+	
+	useEffect(() => {
+		console.log(monster)
+	}, [])
+
     return (
 			<Box >
-				fetchMonster('bandit');
 				<MonsterCard monster={monster} />
         </Box>
     );
